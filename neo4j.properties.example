@@ -1,0 +1,71 @@
+# Neo4j Connection Configuration for AMLSim Data Loader
+#
+# This file configures the connection and loading behavior for importing
+# AMLSim synthetic transaction data into Neo4j.
+#
+# Usage: Place this file in the AMLSim root directory or specify path with
+#        --properties flag when running load_neo4j.py
+
+[neo4j]
+# =============================================================================
+# Neo4j Connection Settings
+# =============================================================================
+
+# Neo4j server URI (bolt protocol)
+# Examples:
+#   bolt://localhost:7687 (local)
+#   neo4j://localhost:7687 (neo4j protocol with routing)
+#   bolt+s://your-server:7687 (secure connection)
+neo4j.uri=neo4j://127.0.0.1:7687
+
+# Authentication credentials
+neo4j.user=neo4j
+neo4j.password=password-here
+
+# Target database name (use 'neo4j' for default database)
+neo4j.database=neo4j
+
+# =============================================================================
+# Loading Configuration
+# =============================================================================
+
+# Number of rows to load per batch using UNWIND
+# Larger values = faster loading but more memory usage
+# Recommended: 5000-20000 depending on data size and available memory
+neo4j.batch_size=10000
+
+# Primary bank identifier for Internal/External account labeling
+# Accounts with this bank_id will be labeled as :Internal
+# All other accounts will be labeled as :External
+neo4j.primary_bank=bank
+
+# Default currency for transactions
+# Used when transaction currency is not specified
+neo4j.default_currency=USD
+
+# =============================================================================
+# Schema Configuration
+# =============================================================================
+
+# Create NODE KEY constraints for all entity types
+# Constraints ensure uniqueness and improve query performance
+# Set to false to skip constraint creation (not recommended)
+neo4j.create_constraints=true
+
+# Create performance indexes for common query patterns
+# Indexes speed up queries on frequently filtered properties
+# Set to false to skip index creation
+neo4j.create_indexes=true
+
+# =============================================================================
+# Notes
+# =============================================================================
+#
+# 1. Ensure Neo4j server is running before loading data
+# 2. The loading user must have write permissions on the target database
+# 3. For large datasets (>1M transactions), consider:
+#    - Increasing batch_size to 15000-20000
+#    - Allocating more heap memory to Neo4j (dbms.memory.heap settings)
+#    - Using Neo4j Enterprise for better performance
+# 4. The loader is idempotent - you can re-run it safely (uses MERGE)
+# 5. Use --force flag to drop existing schema before loading (WARNING: destructive)

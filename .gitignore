@@ -66,3 +66,12 @@ buildNumber.properties
 # another folder that is ignored by vscode
 .settings/
 
+# Python virtual environment
+venv/
+env/
+
+# Neo4j configuration files (contains credentials)
+neo4j.properties
+
+# Temporary/test config files
+conf_*.json
