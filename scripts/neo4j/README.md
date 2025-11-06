@@ -122,12 +122,6 @@ This generates final CSV files in `outputs/`:
 Now load the CSV data into your Neo4j database:
 
 ```bash
-sh scripts/neo4j/load_neo4j.sh conf.json
-```
-
-Or run the Python script directly with options:
-
-```bash
 # Basic load
 python3 scripts/neo4j/load_neo4j.py conf.json
 
@@ -290,7 +284,7 @@ neo4j.create_indexes=false
 **Problem**: `ConstraintValidationException` during loading
 
 **Solutions**:
-- Use `--force` flag to drop existing schema: `load_neo4j.sh conf.json --force`
+- Use `--force` flag to drop existing schema: `python3 scripts/neo4j/load_neo4j.py conf.json --force`
 - Or manually clear database in Neo4j Browser: `MATCH (n) DETACH DELETE n`
 - Check for duplicate data in CSV files
 
@@ -349,7 +343,7 @@ sh scripts/run_AMLSim.sh conf.json
 python3 scripts/convert_logs.py conf.json
 
 # 6. Load into Neo4j
-sh scripts/neo4j/load_neo4j.sh conf.json
+python3 scripts/neo4j/load_neo4j.py conf.json
 
 # 7. Verify in Neo4j Browser
 # Open http://localhost:7474 and run:
